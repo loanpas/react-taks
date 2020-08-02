@@ -1,26 +1,52 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { Component } from 'react';
+
+import Navigation from './components/Navigation'
 import './App.css';
+import { tasks } from './tasks.json'
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+export default class App extends Component {
+
+  constructor() {
+    super();
+    this.state = {
+      tareas:tasks 
+    }
+  }
+
+  render() { 
+    const task = this.state.tareas.map((tareas, index) => {
+      return(
+        <div className="col-md-4"  key={index}>
+          <div className="card mt-4">
+            <div className="card-header">
+              <h4>{tareas.title}</h4>
+              <span className="badge badge-fill badge-danger ml-2">
+                {tareas.priority}
+              </span>
+            </div>
+            <div className="card-body">
+              <p>{tareas.description}</p>
+              <p><mark>{tareas.responsible}</mark></p>
+            </div>
+            <div className="card-footer">
+              <button className="btn btn-warning">
+                Delete
+              </button>              
+            </div>
+          </div>
+        </div>
+      )
+    })
+
+    return (
+      <div className="App">
+        <Navigation titulo="Aplicación de Tareas" numero={ this.state.tareas.length } />
+        <div className="container">
+          <div className="row mt-4">
+            { task }
+          </div>
+        </div>        
+      </div>
+    );
+  }
 }
-
-export default App;
